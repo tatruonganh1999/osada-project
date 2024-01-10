@@ -60,6 +60,25 @@ class UserService
         // return response()->json(['message' => 'User updated successfully', 'data' => $data],200);
     }
 
+    public function deleted($id, $request)
+    {
+        $userdata = auth('api')->user()->fullname;
+        $data = User::find($id);
+        if (!$data) 
+        {
+         return response()->json(['error' => 'User not found'], 404);
+        }
+        $data->update([
+            'isdelete'  => $request['isdelete'],
+            'updated_by'=> $userdata,
+        ]);
+        return response()->json([
+            "status"    => true,
+            "code"      => 200,
+            "message"   => "User delete successfully"
+        ], 200);
+    }
+
     public function userDetail($id)
     {
         $data = User::find($id);

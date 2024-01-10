@@ -50,13 +50,15 @@ Route::group([
 // Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controller\Admin'],function(){
 //     Route::get('users',UserController::class);
 // });
-
-Route::controller(UserController::class)->group(function () {
-    Route::get('userList', 'userList')->middleware('jwt.check');
-    Route::post('userCreate', 'userCreate')->middleware('jwt.check');
-    Route::get('userDetail/{id}', 'userDetail')->middleware('jwt.check');
-    Route::put('userUpdate/{id}', 'userUpdate')->middleware('jwt.check');
-    Route::put('changePassword', 'changePassword')->middleware('jwt.check');
+Route::middleware(['auth:api', 'role:1'])->group(function () {
+    Route::controller(UserController::class)->group(function () {
+        Route::get('userList', 'userList')->middleware('jwt.check');
+        Route::post('userCreate', 'userCreate')->middleware('jwt.check');
+        Route::get('userDetail/{id}', 'userDetail')->middleware('jwt.check');
+        Route::put('userUpdate/{id}', 'userUpdate')->middleware('jwt.check');
+        Route::put('userDelete/{id}', 'userDelete')->middleware('jwt.check');
+        Route::put('changePassword', 'changePassword')->middleware('jwt.check');
+    });
 });
 
 Route::controller(BannerController::class)->group(function () {
@@ -87,11 +89,11 @@ Route::controller(ProductController::class)->group(function () {
     Route::put('productDelete/{id}', 'productDelete');
 });
 
-Route::middleware(['auth:api', 'role:1'])->group(function () {
+// Route::middleware(['auth:api', 'role:1'])->group(function () {
     Route::controller(NewsController::class)->group(function () {
         Route::get('newsList', 'newsList');
         Route::post('newsCreate', 'newsCreate');
         Route::put('newsUpdate/{id}', 'newsUpdate');
         Route::put('newsDelete/{id}', 'newsDelete');
     });
-});
+// });

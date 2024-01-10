@@ -37,17 +37,21 @@ class UserController extends Controller
     }
     //Update data user
     public function userUpdate(Request $request, UserService $users, $id)
-    {       
+    {
         $response = $users->updated($id,$request);
         return response()->json($response);
     }
-
+    //Delete user
+    public function userDelete(Request $request, UserService $users, $id)
+    {
+        $response = $users->deleted($id,$request);
+        return response()->json($response);
+    }
     public function changePassword(Request $request, UserService $users)
     {
         $response = $users->changePassword($request);
         return response()->json($response);
     }
-    
     protected function errorResponse($message, $code)
     {
         return response()->json(['error' => $message, 'code' => $code], $code);

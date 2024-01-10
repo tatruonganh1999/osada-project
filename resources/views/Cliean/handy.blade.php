@@ -12,6 +12,7 @@
     referrerpolicy="origin">
   </script>
   <!-- <script src="custom.js"></script> -->
+  <script src="https://cdn.tiny.cloud/1/cowslr9ajbzedvacrcyt9vvgxhqzzxtveqihtzqtdn2u083u/tinymce/5/tinymce.min.js"></script>
   <script type="text/javascript">
 //     tinymce.init({
 //   selector: 'textarea',  // change this value according to your HTML
@@ -25,13 +26,14 @@
     plugins: [
       'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
       'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-      'media', 'table', 'insertDivPlugin', 'emoticons', 'template', 'help'
+      'media', 'table', 'insertDivPlugin', 'textBox', 'divColumn', 'emoticons', 'template', 'help'
     ],
     toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
       'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-      'forecolor backcolor emoticons | help | insertDivButton',
+      'forecolor backcolor emoticons | help | insertDivButton |divColumn| textBox',
 
-    content_style: 'div { background-color: #b0e0e6; padding: 10px; list-style-type: none; }',
+    content_style: 'div { background-color: #b0e0e6; padding: 10px; list-style-type: none;} a  {text-decoration: none ; }',
+    // content_style: 'a { text-decoration: none }',
 
     menu: {
       favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
@@ -63,7 +65,32 @@
             }
         };
     });
+
+    tinymce.PluginManager.add('textBox', function (editor) {
+    editor.addButton('textBox', {
+        text: 'Insert Text Box',
+        icon: false,
+        onclick: function () {
+            editor.windowManager.open({
+                title: 'Insert Text Box',
+                body: [
+                    { type: 'textbox', name: 'textBoxContent', label: 'Text Box Content' },
+                    { type: 'textbox', name: 'textBoxClass', label: 'Text Box Class', value: 'custom-text-box' }
+                ],
+                onsubmit: function (e) {
+                    var textBoxContent = e.data.textBoxContent;
+                    var textBoxClass = e.data.textBoxClass;
+
+                    var textBoxCode = '<div class="' + textBoxClass + '">' + textBoxContent + '</div>';
+                    editor.insertContent(textBoxCode);
+                }
+            });
+        }
+    });
+});
+
   })();
+
   // editor.execCommand(command, userInterface, value, args);
   // tinymce.activeEditor.execCommand('.myTextarea');
   </script>
@@ -81,6 +108,7 @@
 
 <div id='snowflakeContainer'>
 <p class='snowflake'>❄</p>
+
 </div>
 <script style='text/javascript'>
 	//<![CDATA[

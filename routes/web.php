@@ -19,7 +19,7 @@ use App\Http\Controllers\testController;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('list', [testController::class, ''])->name('category');
+Route::get('handy', [testController::class, 'handy'])->name('handy');
 Route::post('create', [testController::class, 'store'])->name('create');
 // Route::group(['prefix' => 'api'],function(){
 //     Route::get('list', [UserController::class, ''])->name('api.category');

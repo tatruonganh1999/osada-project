@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
+    public function handy()
+    {
+        return view('Cliean.handy');
+    }
     public function store(Request $request)
     {
         $snippet = Test::create($request->all());
